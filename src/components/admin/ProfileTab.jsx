@@ -8,40 +8,72 @@ export default function ProfileTab({ data, persist, showToast }) {
   useEffect(() => setForm(data.profile), [data.profile]);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+
   const save = () => {
     persist({ ...data, profile: form });
-    showToast("اتحفظت بيانات المطعم");
+    showToast("تم حفظ بيانات الكافيه بنجاح");
   };
 
   return (
     <div className="panel">
-      <h2>بيانات المطعم</h2>
-      <p className="panel-sub">دي البيانات اللي هتظهر فوق قائمة العميل مباشرة</p>
+      <h2>بيانات الكافيه العامة</h2>
+      <p className="panel-sub">
+        هذه البيانات واللوجو ستظهر أعلى قائمة المنيو للعملاء مباشرة
+      </p>
 
       <div className="form-grid">
-        <Field label="اسم المطعم/الكافيه">
-          <input value={form.name} onChange={(e) => set("name", e.target.value)} />
+        <Field label="اسم الكافيه">
+          <input
+            value={form.name}
+            onChange={(e) => set("name", e.target.value)}
+            placeholder="مثال: كافيه المزاج / Roastery..."
+          />
         </Field>
-        <Field label="جملة وصف قصيرة">
-          <input value={form.tagline} onChange={(e) => set("tagline", e.target.value)} />
+        <Field label="جملة وصف قصيرة (تُظهر طابع الكافيه)">
+          <input
+            value={form.tagline}
+            onChange={(e) => set("tagline", e.target.value)}
+            placeholder="مثال: أصالة القهوة ومذاق لا يُنسى..."
+          />
         </Field>
-        <Field label="رقم واتساب (بكود الدولة بدون +)">
-          <input value={form.whatsapp} onChange={(e) => set("whatsapp", e.target.value)} placeholder="201001234567" />
+        <Field label="رقم واتساب الطلبات (بكود الدولة بدون +)">
+          <input
+            value={form.whatsapp}
+            onChange={(e) => set("whatsapp", e.target.value)}
+            placeholder="201001234567"
+          />
         </Field>
-        <Field label="العنوان">
-          <input value={form.address} onChange={(e) => set("address", e.target.value)} />
+        <Field label="عنوان الكافيه (المنطقة / الفرع)">
+          <input
+            value={form.address}
+            onChange={(e) => set("address", e.target.value)}
+            placeholder="مثال: القاهرة، مدينة السلام..."
+          />
         </Field>
         <Field label="مواعيد العمل">
-          <input value={form.hours} onChange={(e) => set("hours", e.target.value)} />
+          <input
+            value={form.hours}
+            onChange={(e) => set("hours", e.target.value)}
+            placeholder="مثال: يومياً من 9 صباحاً حتى 2 ظهراً"
+          />
         </Field>
-        <Field label="حرف الشعار (لو مفيش صورة)">
-          <input value={form.logoLetter} maxLength={2} onChange={(e) => set("logoLetter", e.target.value)} />
+        <Field label="حرف الشعار (يظهر إذا لم تتوفر صورة)">
+          <input
+            value={form.logoLetter}
+            maxLength={2}
+            onChange={(e) => set("logoLetter", e.target.value)}
+            placeholder="C"
+          />
         </Field>
-        <ImageUploadField label="صورة الشعار" value={form.logoImage} onChange={(v) => set("logoImage", v)} />
+        <ImageUploadField
+          label="صورة شعار الكافيه (اللوجو)"
+          value={form.logoImage}
+          onChange={(v) => set("logoImage", v)}
+        />
       </div>
 
       <button className="btn-primary" onClick={save}>
-        <Save size={15} /> حفظ التعديلات
+        <Save size={15} /> حفظ تعديلات الكافيه
       </button>
     </div>
   );

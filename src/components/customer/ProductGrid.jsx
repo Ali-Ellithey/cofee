@@ -1,8 +1,15 @@
 import { Plus } from "lucide-react";
 
-export default function ProductGrid({ products, cart, addToCart, removeFromCart }) {
+export default function ProductGrid({
+  products,
+  cart,
+  addToCart,
+  removeFromCart,
+}) {
   if (products.length === 0) {
-    return <div className="empty-row">مفيش أصناف متاحة في القسم ده دلوقتي.</div>;
+    return (
+      <div className="empty-row">مفيش أصناف متاحة في القسم ده دلوقتي.</div>
+    );
   }
 
   return (
@@ -15,12 +22,18 @@ export default function ProductGrid({ products, cart, addToCart, removeFromCart 
             {p.image && (
               <div className="menu-card-media">
                 <img src={p.image} alt={p.name} />
-                {onSale && <span className="menu-card-badge menu-card-badge-media">عرض</span>}
+                {onSale && (
+                  <span className="menu-card-badge menu-card-badge-media">
+                    عرض
+                  </span>
+                )}
               </div>
             )}
             <div className="menu-card-top">
               <span className="menu-card-name">{p.name}</span>
-              {!p.image && onSale && <span className="menu-card-badge">عرض</span>}
+              {!p.image && onSale && (
+                <span className="menu-card-badge">عرض</span>
+              )}
             </div>
             <p className="menu-card-desc">{p.desc}</p>
             <div className="menu-card-bottom">

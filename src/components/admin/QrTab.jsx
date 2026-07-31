@@ -13,15 +13,16 @@ export default function QrTab({ slug, data }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch (e) {
-      // المتصفح مانعش النسخ التلقائي، مفيش مشكلة
+      // المتصفح مانع النسخ التلقائي، مفيش مشكلة
     }
   };
 
   return (
     <div className="panel">
-      <h2>QR والرابط الخاص بالقائمة</h2>
+      <h2>QR كود ورابط منيو الكافيه</h2>
       <p className="panel-sub">
-        اطبع الـ QR ده وحطّه على الطربيزات — أي حد يمسحه هيفتح قائمة {data.profile.name} على طول
+        اطبع الـ QR ده وزّعه على طاولات الكافيه — أي زبون هيمسحه بالموبايل هيفتح
+        منيو {data.profile.name} فوراً
       </p>
 
       <div className="qr-box">
@@ -29,12 +30,13 @@ export default function QrTab({ slug, data }) {
         <div className="qr-link-row">
           <code>{link}</code>
           <button onClick={copy}>
-            <Copy size={14} /> {copied ? "اتنسخ!" : "نسخ"}
+            <Copy size={14} /> {copied ? "تم النسخ!" : "نسخ الرابط"}
           </button>
         </div>
         <p className="qr-note">
-          ملحوظة: الرابط ده هيشتغل فعليًا لما ترفع المشروع على استضافة حقيقية (Vercel / Netlify) بدومين خاص بيك،
-          وتضبط DEMO_DOMAIN في ملف src/lib/defaultData.js على دومينك الفعلي.
+          ملحوظة: الرابط ده هيشتغل فعليًا لما ترفع المشروع على استضافة حقيقية
+          (Vercel / Netlify) بدومين خاص بيك، وتضبط DEMO_DOMAIN في ملف
+          src/lib/defaultData.js على دومينك الفعلي.
         </p>
       </div>
     </div>

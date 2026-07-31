@@ -2,7 +2,11 @@ export default function MenuHeader({ profile }) {
   return (
     <div className="menu-header">
       {profile.logoImage ? (
-        <img className="menu-logo menu-logo-img" src={profile.logoImage} alt={profile.name} />
+        <img
+          className="menu-logo menu-logo-img"
+          src={profile.logoImage}
+          alt={profile.name}
+        />
       ) : (
         <div className="menu-logo">{profile.logoLetter}</div>
       )}

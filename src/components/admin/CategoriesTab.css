@@ -1,0 +1,394 @@
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700&display=swap");
+
+/* ============================================================
+   Design tokens — "بن ونحاس" (coffee & brass)
+   ============================================================ */
+.categories-panel {
+  --bg-deep: #14100c;
+  --bg-panel: #1b1611;
+  --bg-card: #221c15;
+  --bg-card-hover: #2a2219;
+  --line: #3a2f22;
+  --line-soft: #2a2319;
+  --gold: #c9a24b;
+  --gold-bright: #e8caa0;
+  --gold-dim: #8a6f3c;
+  --cream: #f2e9d8;
+  --cream-dim: #b9ac95;
+  --danger: #a5573f;
+  --danger-bright: #d98e6f;
+
+  --font-display: "Amiri", "Traditional Arabic", serif;
+  --font-body: "Cairo", "Segoe UI", sans-serif;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .categories-panel * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.categories-panel {
+  direction: rtl;
+  font-family: var(--font-body);
+  background:
+    radial-gradient(
+      ellipse 900px 400px at 15% -10%,
+      rgba(201, 162, 75, 0.08),
+      transparent 60%
+    ),
+    var(--bg-panel);
+  color: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 40px 36px 32px;
+  max-width: 640px;
+  margin: 24px auto;
+  box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.categories-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.5;
+}
+
+/* ---------------- Header ---------------- */
+
+.cp-eyebrow {
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  animation: cp-rise 0.6s var(--ease) both;
+}
+
+.cp-eyebrow::before {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: var(--gold-dim);
+  display: inline-block;
+}
+
+.categories-panel h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: 0.01em;
+  color: var(--gold-bright);
+  margin: 0 0 14px;
+  animation: cp-rise 0.6s 0.05s var(--ease) both;
+}
+
+.cp-flourish {
+  width: 100%;
+  height: 18px;
+  margin-bottom: 14px;
+  overflow: visible;
+  animation: cp-rise 0.6s 0.1s var(--ease) both;
+}
+
+.cp-flourish path {
+  stroke: var(--gold-dim);
+  stroke-width: 1;
+  fill: none;
+}
+
+.cp-flourish circle {
+  fill: var(--gold);
+}
+
+.panel-sub {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--cream-dim);
+  margin: 0 0 30px;
+  max-width: 46ch;
+  animation: cp-rise 0.6s 0.14s var(--ease) both;
+}
+
+/* ---------------- Add row ---------------- */
+
+.add-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  animation: cp-rise 0.6s 0.18s var(--ease) both;
+}
+
+.add-row input {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 13px 16px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  outline: none;
+  transition:
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.add-row input::placeholder {
+  color: #6e6252;
+}
+
+.add-row input:focus {
+  border-color: var(--gold-dim);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.12);
+}
+
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--gold-dim);
+  background: linear-gradient(180deg, #2a2116, #1e1810);
+  color: var(--gold-bright);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+  white-space: nowrap;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(232, 202, 160, 0.35) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s var(--ease);
+}
+
+.btn-primary:hover {
+  border-color: var(--gold);
+  color: #fff6e0;
+  transform: translateY(-1px);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-primary:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* ---------------- List ---------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-row {
+  --i: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  padding: 14px 16px;
+  animation: cp-rise 0.5s var(--ease) both;
+  animation-delay: calc(0.2s + var(--i) * 0.06s);
+  transition:
+    background 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+.list-row:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--gold-dim);
+  transform: translateX(-2px);
+  box-shadow: 0 10px 26px -18px rgba(0, 0, 0, 0.7);
+}
+
+.list-row .row-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.row-index {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 11.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.25s var(--ease),
+    color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.list-row:hover .row-index {
+  border-color: var(--gold);
+  background: rgba(201, 162, 75, 0.12);
+}
+
+.list-row span.cat-name {
+  font-size: 15px;
+  color: var(--cream);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-row input.edit-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gold);
+  padding: 2px 2px 4px;
+  color: var(--gold-bright);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transform: translateX(0);
+  transition: opacity 0.25s var(--ease);
+}
+
+.list-row:hover .row-actions {
+  opacity: 1;
+}
+
+.row-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--cream-dim);
+  cursor: pointer;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.row-actions button:hover {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.row-actions button:first-child:hover {
+  color: var(--gold-bright);
+  background: rgba(201, 162, 75, 0.1);
+  border-color: var(--gold-dim);
+}
+
+.row-actions button:last-child:hover {
+  color: var(--danger-bright);
+  background: rgba(165, 87, 63, 0.12);
+  border-color: var(--danger);
+}
+
+/* ---------------- Empty state ---------------- */
+
+.empty-row {
+  list-style: none;
+  text-align: center;
+  padding: 46px 20px;
+  color: var(--cream-dim);
+  font-size: 14px;
+  line-height: 1.9;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  animation: cp-rise 0.6s 0.24s var(--ease) both;
+}
+
+.empty-icon {
+  color: var(--gold-dim);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  animation: cp-float 4s ease-in-out infinite;
+}
+
+/* ---------------- Keyframes ---------------- */
+
+@keyframes cp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}

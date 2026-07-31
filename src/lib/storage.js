@@ -1,50 +1,82 @@
-/**
- * طبقة تخزين موحّدة.
- *
- * - لو الملف شغال جوه بيئة Claude (فيها window.storage) هيستخدمها تلقائيًا.
- * - لو شغال كتطبيق Vite مستقل (زي دلوقتي بعد التحميل) هيستخدم localStorage
- *   كبديل عشان تقدر تجرب المشروع على جهازك فورًا من غير أي إعداد إضافي.
- *
- * ⚠️ ملحوظة مهمة قبل ما تبيع الخدمة لمطاعم حقيقية:
- * localStorage بيخزّن البيانات على جهاز/متصفح العميل بس، يعني:
- *   - لو العميل فتح الرابط من موبايل تاني هيلاقي القائمة فاضية (مش نفس بيانات المطعم)
- *   - القائمة اللي بيشوفها الزبون لازم تيجي من سيرفر حقيقي (Backend + قاعدة بيانات)
- * لما تكون جاهز للإنتاج، استبدل الدوال دي بنداءات API حقيقية (fetch لسيرفرك)
- * بدل localStorage، وسيب باقي الكود زي ما هو (نفس الأسماء والمخرجات).
- */
+// دالة للتحقق من وجود بيئة سابقة إن وجدت
+function hasClaudeStorage() {
+  return typeof window !== 'undefined' && window.storage && typeof window.storage.get === 'function';
+}
 
-const hasClaudeStorage = () =>
-  typeof window !== "undefined" &&
-  window.storage &&
-  typeof window.storage.get === "function";
+// رابط السيرفر المحلي
+const API_URL = 'http://localhost:5000/api/restaurants';
 
 export async function storageGet(key) {
+  // تنظيف الـ key من أي نقطتين لضمان عدم حدوث خطأ 404 أو 500
+  const cleanKey = key.replace(/:/g, '-');
+
+  // 1. لو البيئة القديمة موجودة
   if (hasClaudeStorage()) {
     try {
-      const res = await window.storage.get(key, true);
+      const res = await window.storage.get(cleanKey, true);
       return res ? res.value : null;
     } catch (e) {
-      return null;
+      // لو فشلت، نكمل ونحاول نجيب من السيرفر الجديد
     }
   }
+
+  // 2. محاولة الجلب من السيرفر الجديد (Backend)
   try {
-    return localStorage.getItem(key);
+    const response = await fetch(`${API_URL}/${cleanKey}`);
+    if (response.ok) {
+      const data = await response.json();
+      // بنرجعها كـ JSON String عشان App.jsx بيعمل JSON.parse(raw)
+      return typeof data === 'string' ? data : JSON.stringify(data);
+    }
+  } catch (e) {
+    // لو السيرفر مش شغال، ننزل للـ localStorage كبديل أخير
+  }
+
+  // 3. البديل الأخير (localStorage)
+  try {
+    const localData = localStorage.getItem(cleanKey);
+    return localData ? localData : null;
   } catch (e) {
     return null;
   }
 }
 
 export async function storageSet(key, value) {
+  const cleanKey = key.replace(/:/g, '-');
+
+  // 1. لو البيئة القديمة موجودة
   if (hasClaudeStorage()) {
     try {
-      await window.storage.set(key, value, true);
+      await window.storage.set(cleanKey, value, true);
       return true;
     } catch (e) {
-      return false;
+      // لو فشلت نكمل للسيرفر
     }
   }
+
+  // 2. الحفظ على السيرفر الجديد (Backend)
   try {
-    localStorage.setItem(key, value);
+    const payload = typeof value === 'string' ? JSON.parse(value) : value;
+
+    const response = await fetch(`${API_URL}/${cleanKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success || result) return true;
+    }
+  } catch (e) {
+    // لو السيرفر مش شغال، نسجل في الـ localStorage مؤقتاً
+  }
+
+  // 3. البديل الأخير (localStorage)
+  try {
+    localStorage.setItem(cleanKey, typeof value === 'string' ? value : JSON.stringify(value));
     return true;
   } catch (e) {
     return false;
